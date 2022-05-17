@@ -1,0 +1,178 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Business\\indiGo.Business.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Business\\indiGo.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Business\\indiGo.Business.csproj",
+        "projectName": "indiGo.Business",
+        "projectPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Business\\indiGo.Business.csproj",
+        "packagesPath": "C:\\Users\\akcay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Business\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\akcay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\indiGo.Data.csproj": {
+                "projectPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\indiGo.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\indiGo.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\indiGo.Core.csproj",
+        "projectName": "indiGo.Core",
+        "projectPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\indiGo.Core.csproj",
+        "packagesPath": "C:\\Users\\akcay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\akcay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\indiGo.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\indiGo.Data.csproj",
+        "projectName": "indiGo.Data",
+        "projectPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\indiGo.Data.csproj",
+        "packagesPath": "C:\\Users\\akcay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\akcay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\indiGo.Core.csproj": {
+                "projectPath": "C:\\Users\\akcay\\Desktop\\indiGo\\indiGo\\indiGo.Core\\indiGo.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

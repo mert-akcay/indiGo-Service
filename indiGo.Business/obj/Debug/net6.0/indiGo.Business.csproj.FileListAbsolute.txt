@@ -1,0 +1,17 @@
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Business.deps.json
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Business.dll
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Business.pdb
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Core.dll
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Data.dll
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Data.pdb
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\bin\Debug\net6.0\indiGo.Core.pdb
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.csproj.AssemblyReference.cache
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.AssemblyInfoInputs.cache
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.AssemblyInfo.cs
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.csproj.CoreCompileInputs.cache
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.csproj.CopyComplete
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.dll
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\refint\indiGo.Business.dll
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\indiGo.Business.pdb
+C:\Users\akcay\Desktop\indiGo\indiGo\indiGo.Business\obj\Debug\net6.0\ref\indiGo.Business.dll
