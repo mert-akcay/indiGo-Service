@@ -9,10 +9,12 @@ namespace indiGo.Web.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
 
         public IActionResult Register()
         {

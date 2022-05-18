@@ -1,9 +1,13 @@
+using indiGo.Data.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var con = builder.Configuration.GetConnectionString("con");
+builder.Services.AddDbContext<MyContext>(options => options.UseSqlServer(con));
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
