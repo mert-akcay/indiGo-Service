@@ -139,5 +139,34 @@ namespace indiGo.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View(0);
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return View(0);
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (!result.Succeeded)
+            {
+                return View(0);
+            }
+
+            await _userManager.RemoveFromRoleAsync(user, Roles.Passive);
+            await _userManager.AddToRoleAsync(user, Roles.Customer);
+
+            return View(1);
+        }
+
     }
 }
