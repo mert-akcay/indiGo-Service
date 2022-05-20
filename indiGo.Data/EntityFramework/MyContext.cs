@@ -1,10 +1,11 @@
 ﻿using indiGo.Core.Entities;
 using indiGo.Data.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace indiGo.Data.EntityFramework;
-public sealed class MyContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
     public MyContext(DbContextOptions options) :base(options)
     {

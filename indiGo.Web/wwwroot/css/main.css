@@ -218,7 +218,7 @@ iframe {
   width: 100%;
   position: relative;
   border-bottom: 2px solid #adadad;
-  margin-bottom: 37px;
+  
 }
 
 .input100 {
@@ -490,5 +490,8 @@ iframe {
   }
 }
 
+.input-validation {
+	margin-top: -20px!important
+}
 
 
