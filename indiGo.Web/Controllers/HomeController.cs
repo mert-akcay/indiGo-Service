@@ -1,9 +1,13 @@
-﻿using indiGo.Core.Identity;
+﻿using System.Text;
+using System.Text.Encodings.Web;
+using indiGo.Core.Emails;
+using indiGo.Core.Identity;
+using indiGo.Core.Services;
 using indiGo.Core.ViewModels;
 using indiGo.Data.Identity;
-using indiGo.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace indiGo.Web.Controllers
 {
@@ -12,12 +16,14 @@ namespace indiGo.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
+        public HomeController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IEmailService emailService)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _emailService = emailService;
         }
 
         public async void addRoles()
@@ -64,9 +70,31 @@ namespace indiGo.Web.Controllers
                 return View(model);
             }
 
+
             var count = _userManager.Users.Count();
             await _userManager.AddToRoleAsync(user, count == 1 ? Roles.Admin : Roles.Passive);
 
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Action("ConfirmEmail", "Home", new {userId = user.Id, code = code},
+                protocol: Request.Scheme);
+
+            var emailMessage = new MailModel()
+            {
+                To = new List<EmailModel>
+                {
+                    new EmailModel
+                    {
+                        Email = user.Email,
+                        Name = user.FirstName
+                    }
+                },
+                Body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking here</a>.",
+                Subject = "Confirm your email"
+            };
+
+
+            await _emailService.SendEmailAsync(emailMessage);
 
             return RedirectToAction("Login");
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace indiGo.Web.ViewModels;
+namespace indiGo.Core.ViewModels;
 
 public class RegisterViewModel
 {
@@ -32,7 +32,7 @@ public class RegisterViewModel
     [Required(ErrorMessage = "Şifre Tekrar alanı gereklidir.")]
     [Display(Name = "Şifre Tekrar")]
     [DataType(DataType.Password)]
-    [Compare(nameof(Password),ErrorMessage = "Şifreler uyuşmuyor!")]
+    [Compare(nameof(Password), ErrorMessage = "Şifreler uyuşmuyor!")]
     public string ConfirmPassword { get; set; }
 
 

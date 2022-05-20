@@ -82,12 +82,13 @@
                         <span asp-validation-for="ConfirmPassword" class="text text-danger small"></span>
                     </div>
 
+                    <div asp-validation-summary="ModelOnly" class="text text-danger small"></div>
 
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
                             <div class="login100-form-bgbtn"></div>
                             <button type="submit" class="login100-form-btn">
-                                Giriş Yap
+                                Kayıt Ol
                             </button>
                         </div>
                     </div>
@@ -110,6 +111,7 @@
         window.onload = function() {
             document.querySelector("#FirstName").focus();
             document.querySelector("#LastName").focus();
+            document.querySelector("#Username").focus();
             document.querySelector("#Email").focus();
             document.querySelector("#Email").blur();
         };

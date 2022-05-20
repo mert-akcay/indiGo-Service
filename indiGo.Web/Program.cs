@@ -1,3 +1,5 @@
+using indiGo.Business.Services.Email;
+using indiGo.Core.Services;
 using indiGo.Data.EntityFramework;
 using indiGo.Data.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +29,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         options.User.AllowedUserNameCharacters =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
         options.User.RequireUniqueEmail = true;
-    }).AddEntityFrameworkStores<MyContext>();
+    }).AddEntityFrameworkStores<MyContext>().AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -44,6 +46,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
