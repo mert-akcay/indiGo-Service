@@ -24,6 +24,7 @@ namespace indiGo.Web.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
             _emailService = emailService;
+            addRoles();
         }
 
         public async void addRoles()
