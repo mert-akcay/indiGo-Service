@@ -23,7 +23,7 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <form asp-controller="Home" asp-action="Register" class="login100-form validate-form">
+                <form asp-controller="Account" asp-action="Register" class="login100-form validate-form">
                     <span class="login100-form-title p-b-48">
                         <img style="border-radius: 13px; width: 90%" src="../../img/logo.png" />
                     </span>
@@ -98,7 +98,7 @@
                             Bir hesabınız var mı?
                         </span>
 
-                        <a class="txt2" asp-action="Login">
+                        <a class="txt2" asp-controller="Account" asp-action="Login">
                             Giriş Yap
                         </a>
                     </div>

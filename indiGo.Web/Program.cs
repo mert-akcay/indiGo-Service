@@ -47,6 +47,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+builder.Services.AddSession();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -63,7 +64,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

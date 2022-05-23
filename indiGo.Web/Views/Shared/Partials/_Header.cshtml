@@ -1,11 +1,26 @@
-﻿<div class="container-fluid">
+﻿@using indiGo.Data.Identity
+@using Microsoft.AspNetCore.Http;
+@using indiGo.Core.Extensions
+
+@{
+    var userString = Context.Session.GetString("User") == null ? "" : Context.Session.GetString("User");
+
+    var user = new UserViewModel();
+    if (userString != "")
+    {
+        user = System.Text.Json.JsonSerializer.Deserialize<UserViewModel>(userString);
+    }
+    
+}
+
+<div class="container-fluid" >
     <div class="row">
         <div class="col-lg-3 bg-secondary d-none d-lg-block">
             <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                 <h1 class="m-0 display-3 text-primary">indiGo</h1>
             </a>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9" style="border-bottom:4px solid #ffc600">
             <div class="row bg-dark d-none d-lg-flex">
                 <div class="col-lg-7 text-left text-white">
                     <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
@@ -46,15 +61,36 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a asp-action="Index" class="nav-item nav-link active ">Anasayfa</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav-item nav-link active ">Anasayfa</a>
                         <a href class="nav-item nav-link">Nasıl Kullanılır?</a>
                         <a href="service.html" class="nav-item nav-link">Hizmetlerimiz</a>
 
                         <a href="contact.html" class="nav-item nav-link">İletişim</a>
                     </div>
-                    <a asp-action="Login" class="btn btn-primary mr-3 d-none d-lg-block">Giriş Yap</a>
+                    
+                    @if (!Context.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary mr-3 d-none d-lg-block">Giriş Yap</a>
+                    }
+                    else
+                    {
+                        <div class="btn btn-primary mr-4 nav-item dropdown">
+                            <a class="nav-link dropdown-toggle p-0" style="color: black" data-toggle="dropdown">@user.FirstName.CapitalizeFirstLetter() @user.LastName.CapitalizeFirstLetter()</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a asp-controller="Account" asp-action="Profile" class="dropdown-item">Profil</a>
+                                <a href="single.html" class="dropdown-item">Şifre Değiştir</a>
+                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item">Çıkış Yap</a>
+                            </div>
+                        </div>
+                    }
                 </div>
             </nav>
         </div>
     </div>
 </div>
+
+<script>
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+</script>
