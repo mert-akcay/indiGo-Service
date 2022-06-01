@@ -1,4 +1,5 @@
 ﻿using indiGo.Core.Entities;
+using indiGo.Data.Entities;
 using indiGo.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 namespace indiGo.Data.EntityFramework;
 public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
-    public MyContext(DbContextOptions options) :base(options)
+    public MyContext(DbContextOptions options) : base(options)
     {
-        
+
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -21,6 +22,12 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
             entity.Property(x => x.FirstName).HasMaxLength(50).IsRequired(true);
             entity.Property(x => x.LastName).HasMaxLength(50).IsRequired(true);
             entity.Property(x => x.RegisterDate).HasColumnType("datetime");
+            entity.HasMany(x => x.Addresses).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+        });
+
+        builder.Entity<Address>(entity =>
+        {
+            entity.HasOne(x => x.User).WithMany(x => x.Addresses).HasForeignKey(x => x.UserId);
         });
 
         builder.Entity<ServiceDemand>(entity =>
@@ -28,10 +35,11 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
             entity.HasIndex(x => x.Id);
             entity.Property(x => x.FirstName).HasMaxLength(50).IsRequired(true);
             entity.Property(x => x.LastName).HasMaxLength(50).IsRequired(true);
-            entity.Property(x => x.Address).HasMaxLength(300).IsRequired(true);
             entity.Property(x => x.PhoneNumber).HasMaxLength(13).IsRequired(true);
             entity.Property(x => x.TCKN).IsFixedLength().HasMaxLength(11).IsRequired(true);
             entity.Property(x => x.Problem).HasMaxLength(300).IsRequired(true);
+            entity.HasOne(x => x.Address).WithMany(x => x.ServiceDemands).HasForeignKey(x => x.AddressId);
+
         });
 
         builder.Entity<Entry>(entity =>
@@ -53,4 +61,5 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
     public DbSet<ServiceDemand> ServiceDemands { get; set; }
     public DbSet<Entry> Entries { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
+    public DbSet<Address> Addresses { get; set; }
 }

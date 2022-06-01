@@ -12,7 +12,7 @@ using indiGo.Data.EntityFramework;
 namespace indiGo.Data.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220521224202_Init")]
+    [Migration("20220601151757_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,7 +79,7 @@ namespace indiGo.Data.Migrations
                     b.ToTable("Receipts");
                 });
 
-            modelBuilder.Entity("indiGo.Core.Entities.ServiceDemand", b =>
+            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,13 +87,65 @@ namespace indiGo.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
+                    b.Property<string>("AddressInfo")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Category")
+                    b.Property<string>("AddressName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApartmentNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FlatNo")
                         .HasColumnType("int");
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("indiGo.Data.Entities.ServiceDemand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -125,6 +177,8 @@ namespace indiGo.Data.Migrations
                         .IsFixedLength();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("Id");
 
@@ -353,6 +407,28 @@ namespace indiGo.Data.Migrations
                     b.Navigation("Receipt");
                 });
 
+            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
+                {
+                    b.HasOne("indiGo.Data.Identity.ApplicationUser", "User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("indiGo.Data.Entities.ServiceDemand", b =>
+                {
+                    b.HasOne("indiGo.Data.Entities.Address", "Address")
+                        .WithMany("ServiceDemands")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -407,6 +483,16 @@ namespace indiGo.Data.Migrations
             modelBuilder.Entity("indiGo.Core.Entities.Receipt", b =>
                 {
                     b.Navigation("ReceiptEntries");
+                });
+
+            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
+                {
+                    b.Navigation("ServiceDemands");
+                });
+
+            modelBuilder.Entity("indiGo.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

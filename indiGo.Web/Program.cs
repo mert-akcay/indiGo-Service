@@ -1,5 +1,10 @@
+using indiGo.Business.MappingProfiles;
+using indiGo.Business.Repositories;
+using indiGo.Business.Repositories.Abstract;
 using indiGo.Business.Services.Email;
+using indiGo.Core.Entities;
 using indiGo.Core.Services;
+using indiGo.Data.Entities;
 using indiGo.Data.EntityFramework;
 using indiGo.Data.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -47,6 +52,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+
+
+builder.Services.AddScoped<IRepository<Address, int>, AddressRepository>();
+builder.Services.AddScoped<IRepository<ServiceDemand, int>, ServiceDemandRepository>();
+
+
+builder.Services.AddAutoMapper(options =>
+{
+    options.AddProfile<ViewModelMappingProfile>();
+});
+
 builder.Services.AddSession();
 var app = builder.Build();
 

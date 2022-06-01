@@ -19,7 +19,6 @@ namespace indiGo.Web.Controllers
         public HomeController(RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
-            _emailService = emailService;
         }
 
         public async void addRoles()
@@ -35,5 +34,10 @@ namespace indiGo.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ServiceDemand()
+        {
+            return View();
+        }
     }
 }
