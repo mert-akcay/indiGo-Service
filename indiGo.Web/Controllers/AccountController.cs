@@ -1,15 +1,13 @@
 ﻿using System.Text;
 using System.Text.Encodings.Web;
-using AutoMapper;
 using indiGo.Business.Repositories.Abstract;
 using indiGo.Core.Emails;
-using indiGo.Core.Extensions;
+using indiGo.Core.Entities;
 using indiGo.Core.Identity;
 using indiGo.Core.Services;
 using indiGo.Core.ViewModels;
-using indiGo.Data.Entities;
 using indiGo.Data.Identity;
-using indiGo.Web.ViewModels;
+using indiGo.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -22,23 +20,25 @@ public class AccountController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IRepository<Address, int> _addressRepository;
+    private readonly IRepository<ServiceDemand, int> _serviceDemandRepository;
     private readonly IEmailService _emailService;
 
     public async Task addRoles()
     {
         foreach (string role in Roles.RoleList)
         {
-            await _roleManager.CreateAsync(new IdentityRole() {Name = role});
+            await _roleManager.CreateAsync(new IdentityRole() { Name = role });
         }
     }
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailService emailService, IRepository<Address, int> addressRepository, RoleManager<IdentityRole> roleManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailService emailService, IRepository<Address, int> addressRepository, RoleManager<IdentityRole> roleManager, IRepository<ServiceDemand, int> serviceDemandRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailService = emailService;
         _addressRepository = addressRepository;
         _roleManager = roleManager;
+        _serviceDemandRepository = serviceDemandRepository;
         //addRoles();
     }
 
@@ -77,15 +77,19 @@ public class AccountController : Controller
 
         var count = _userManager.Users.Count();
         await _userManager.AddToRoleAsync(user, count == 1 ? Roles.Admin : Roles.Passive);
+        //await _userManager.AddToRoleAsync(user, Roles.Operator);
 
-        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
-            protocol: Request.Scheme);
 
-        var emailMessage = new MailModel()
+        if (await _userManager.IsInRoleAsync(user, Roles.Passive))
         {
-            To = new List<EmailModel>
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                protocol: Request.Scheme);
+
+            var emailMessage = new MailModel()
+            {
+                To = new List<EmailModel>
                 {
                     new EmailModel
                     {
@@ -93,12 +97,12 @@ public class AccountController : Controller
                         Name = user.FirstName
                     }
                 },
-            Body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking here</a>.",
-            Subject = "Confirm your email"
-        };
+                Body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicking here</a>.",
+                Subject = "Confirm your email"
+            };
+            await _emailService.SendEmailAsync(emailMessage);
+        }
 
-
-        await _emailService.SendEmailAsync(emailMessage);
 
         return RedirectToAction("Login");
 
@@ -138,6 +142,16 @@ public class AccountController : Controller
                 Email = user.Email,
                 RegisterDate = user.RegisterDate
             }));
+
+            if (await _userManager.IsInRoleAsync(user,Roles.Operator))
+            {
+                return RedirectToAction("Services", "Operator");
+            }
+            if (await _userManager.IsInRoleAsync(user, Roles.Customer) ||
+                await _userManager.IsInRoleAsync(user, Roles.Passive))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return RedirectToAction("Index", "Home");
         }
         else if (result.IsLockedOut)
@@ -277,14 +291,21 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> MyDemands()
+    {
+        var demands = _serviceDemandRepository.Get(x => x.UserId == HttpContext.GetUserId()).ToList();
+        return View(demands);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Addresses()
     {
-        _addressRepository.Get().ToList();
         var name = HttpContext.User.Identity.Name;
-        var user = await _userManager.FindByNameAsync(name); 
+        var user = await _userManager.FindByNameAsync(name);
+        var addresses = _addressRepository.Get(x => x.UserId == user.Id).ToList();
         var model = new AddressPageViewModel
         {
-            Addresses = user.Addresses
+            Addresses = addresses
         };
         return View(model);
     }
@@ -317,7 +338,8 @@ public class AccountController : Controller
 
             _addressRepository.Insert(address);
             _addressRepository.Save();
-        }else if (model.EditAddressViewModel != null)
+        }
+        else if (model.EditAddressViewModel != null)
         {
             var address = _addressRepository.GetById(model.EditAddressViewModel.Id);
             address.City = model.EditAddressViewModel.City;
@@ -349,7 +371,7 @@ public class AccountController : Controller
 
         _addressRepository.Delete(address);
         _addressRepository.Save();
-        
+
         return RedirectToAction("Addresses");
     }
 

@@ -1,14 +1,6 @@
-﻿using System.Text;
-using System.Text.Encodings.Web;
-using indiGo.Core.Emails;
-using indiGo.Core.Extensions;
-using indiGo.Core.Identity;
-using indiGo.Core.Services;
-using indiGo.Core.ViewModels;
-using indiGo.Data.Identity;
+﻿using indiGo.Core.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace indiGo.Web.Controllers
 {

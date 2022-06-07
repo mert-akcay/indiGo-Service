@@ -1,7 +1,6 @@
 ﻿using indiGo.Core.Entities.Abstract;
-using indiGo.Data.Identity;
 
-namespace indiGo.Data.Entities;
+namespace indiGo.Core.Entities;
 
 public class Address:BaseEntity<int>
 {
@@ -14,6 +13,4 @@ public class Address:BaseEntity<int>
     public int FlatNo { get; set; }
     public string AddressInfo { get; set; }
     public string UserId { get; set; }
-    public ApplicationUser User { get; set; }
-    public List<ServiceDemand>? ServiceDemands { get; set; }
 }

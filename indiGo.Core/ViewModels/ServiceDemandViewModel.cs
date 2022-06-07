@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using indiGo.Core.ViewModels;
+using indiGo.Core.Entities;
 
-namespace indiGo.Data.Entites;
+namespace indiGo.Core.ViewModels;
 
 public class ServiceDemandViewModel
 {
+    public int Id { get; set; }
+
     [Display(Name = "Ad")]
     [Required]
     public string FirstName { get; set; }
@@ -15,7 +17,7 @@ public class ServiceDemandViewModel
 
     [Display(Name = "TC Kimlik No")]
     [Required]
-    [StringLength(11, MinimumLength = 11,ErrorMessage = "Lütfen geçerli bir TC Kimlik No giriniz.")]
+    [StringLength(11, MinimumLength = 11, ErrorMessage = "Lütfen geçerli bir TC Kimlik No giriniz.")]
     public string TCKN { get; set; }
 
     [Display(Name = "Adres")]
@@ -30,5 +32,10 @@ public class ServiceDemandViewModel
     [Display(Name = "Probleminiz nedir?")]
     [Required]
     public string Problem { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public string? Category { get; set; }
+    public Address? Address { get; set; }
+    public UserViewModel? Service { get; set; }
 
 }

@@ -21,4 +21,6 @@ public class UserViewModel
     [Phone]
     [Display(Name = "Telefon Numarası")]
     public string? PhoneNumber { get; set; }
+
+    public string? Id { get; set; }
 }

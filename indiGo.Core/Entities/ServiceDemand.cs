@@ -1,6 +1,5 @@
 ﻿using indiGo.Core.Entities.Abstract;
-
-namespace indiGo.Data.Entities;
+namespace indiGo.Core.Entities;
 
 public class ServiceDemand : BaseEntity<int>
 {
@@ -11,6 +10,6 @@ public class ServiceDemand : BaseEntity<int>
     public string Problem { get; set; }
     public string PhoneNumber { get; set; }
     public string Category { get; set; }
-    public Address? Address { get; set; }
-
+    public string UserId { get; set; }
+    public string? ServiceId { get; set; }
 }

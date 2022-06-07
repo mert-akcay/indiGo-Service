@@ -1,10 +1,9 @@
 ﻿using indiGo.Business.Repositories.Abstract;
 using indiGo.Core.Categories;
 using indiGo.Core.Entities;
-using indiGo.Data.Entites;
-using indiGo.Data.Entities;
+using indiGo.Core.ViewModels;
 using indiGo.Data.Identity;
-using indiGo.Web.ViewModels;
+using indiGo.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,14 +29,14 @@ public class ServiceDemandController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ElectricalServiceDemand()
+    public IActionResult ElectricalServiceDemand()
     {
-        _addressRepository.Get().ToList();
-        var name = HttpContext.User.Identity.Name;
-        var user = await _userManager.FindByNameAsync(name);
-        var model = new ServiceDemandPageViewModel();
+        var userId = HttpContext.GetUserId();
+        var addresses = _addressRepository.Get(x=>x.UserId == userId).ToList();
        
-        user.Addresses.ForEach(x =>
+        var model = new ServiceDemandPageViewModel();
+
+        addresses.ForEach(x =>
         {
             model.Addresses.Add(new SelectListItem()
             {
@@ -51,13 +50,12 @@ public class ServiceDemandController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ElectricalServiceDemand(ServiceDemandPageViewModel model)
+    public IActionResult ElectricalServiceDemand(ServiceDemandPageViewModel model)
     {
-        _addressRepository.Get().ToList();
-        var name = HttpContext.User.Identity.Name;
-        var user = await _userManager.FindByNameAsync(name);
-        
-        user.Addresses.ForEach(x =>
+        var userId = HttpContext.GetUserId();
+        var adresses = _addressRepository.Get(x => x.UserId == userId).ToList();
+
+        adresses.ForEach(x =>
         {
             model.Addresses.Add(new SelectListItem()
             {
@@ -79,7 +77,126 @@ public class ServiceDemandController : Controller
             Problem = model.ServiceDemand.Problem,
             TCKN = model.ServiceDemand.TCKN,
             AddressId = model.ServiceDemand.AddressId,
-            Category = Categories.Electric
+            Category = Categories.Electric,
+            UserId = userId
+        };
+
+        _serviceDemandRepository.Insert(serviceDemand);
+        _serviceDemandRepository.Save();
+
+        TempData["status"] = "success";
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult GasServiceDemand()
+    {
+        var userId = HttpContext.GetUserId();
+        var adresses = _addressRepository.Get(x => x.UserId == userId).ToList();
+        var model = new ServiceDemandPageViewModel();
+
+        adresses.ForEach(x =>
+        {
+            model.Addresses.Add(new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.AddressName
+
+            });
+        });
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult GasServiceDemand(ServiceDemandPageViewModel model)
+    {
+        var userId = HttpContext.GetUserId();
+        var adresses = _addressRepository.Get(x => x.UserId == userId).ToList();
+
+        adresses.ForEach(x =>
+        {
+            model.Addresses.Add(new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.AddressName
+            });
+        });
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var serviceDemand = new ServiceDemand()
+        {
+            FirstName = model.ServiceDemand.FirstName,
+            LastName = model.ServiceDemand.LastName,
+            PhoneNumber = model.ServiceDemand.PhoneNumber,
+            Problem = model.ServiceDemand.Problem,
+            TCKN = model.ServiceDemand.TCKN,
+            AddressId = model.ServiceDemand.AddressId,
+            Category = Categories.Gas,
+            UserId = userId
+        };
+
+        _serviceDemandRepository.Insert(serviceDemand);
+        _serviceDemandRepository.Save();
+
+        TempData["status"] = "success";
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult PlumbingServiceDemand()
+    {
+        var userId = HttpContext.GetUserId();
+        var adresses = _addressRepository.Get(x => x.UserId == userId).ToList();
+        var model = new ServiceDemandPageViewModel();
+
+        adresses.ForEach(x =>
+        {
+            model.Addresses.Add(new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.AddressName
+
+            });
+        });
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult PlumbingServiceDemand(ServiceDemandPageViewModel model)
+    {
+        var userId = HttpContext.GetUserId();
+        var adresses = _addressRepository.Get(x => x.UserId == userId).ToList();
+
+        adresses.ForEach(x =>
+        {
+            model.Addresses.Add(new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.AddressName
+            });
+        });
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var serviceDemand = new ServiceDemand()
+        {
+            FirstName = model.ServiceDemand.FirstName,
+            LastName = model.ServiceDemand.LastName,
+            PhoneNumber = model.ServiceDemand.PhoneNumber,
+            Problem = model.ServiceDemand.Problem,
+            TCKN = model.ServiceDemand.TCKN,
+            AddressId = model.ServiceDemand.AddressId,
+            Category = Categories.Plumbing,
+            UserId = userId
         };
 
         _serviceDemandRepository.Insert(serviceDemand);

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using indiGo.Core.Extensions
+@using indiGo.Core.Identity
 
 @{
     var userString = Context.Session.GetString("User") == null ? "" : Context.Session.GetString("User");
@@ -11,6 +12,7 @@
     }
 
     var page = ViewContext.RouteData.Values["controller"].ToString();
+    var action = ViewContext.RouteData.Values["action"].ToString();
 }
 
 <div class="container-fluid">
@@ -66,28 +68,45 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Anasayfa</a>
-                        <a href class='nav-item nav-link @(page == "abc" ? "active" : "")'>Nasıl Kullanılır?</a>
-                        <a asp-controller="ServiceDemand" asp-action="Index" class='nav-item nav-link @(page == "ServiceDemand" ? "active" : "")'>Talep Oluştur</a>
 
-                        <a href="contact.html" class="nav-item nav-link">İletişim</a>
+                        @if (Context.User.IsInRole(Roles.ElectricalService) || Context.User.IsInRole(Roles.GasService) || Context.User.IsInRole(Roles.PlumbingService))
+                        {
+                            <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Talepler</a>
+                            <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Tamamlanan İşler</a>
+                            <a href="contact.html" class="nav-item nav-link">İletişim</a>
+                        }
+                        else if (Context.User.IsInRole(Roles.Operator))
+                        {
+                            <a asp-controller="Operator" asp-action="ServiceDemands" class='nav-item nav-link @(action == "ServiceDemands" ? "active" : "")'>Talepler</a>
+                            <a asp-controller="Operator" asp-action="AssignedDemands" class='nav-item nav-link @(action == "AssignedDemands" ? "active" : "")'>Atanan İşler</a>
+                            <a asp-controller="Operator" asp-action="Services" class='nav-item nav-link @(action == "Services" ? "active" : "")'>Teknik Servisler</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Anasayfa</a>
+                            <a class='nav-item nav-link @(page == "abc" ? "active" : "")'>Nasıl Kullanılır?</a>
+                            <a asp-controller="ServiceDemand" asp-action="Index" class='nav-item nav-link @(page == "ServiceDemand" ? "active" : "")'>Talep Oluştur</a>
+                            <a href="contact.html" class="nav-item nav-link">İletişim</a>
+                        }
+
+
                     </div>
-
-                    @if (!Context.User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary mr-3 d-none d-lg-block">Giriş Yap</a>
-                    }
-                    else
-                    {
-                        <div class="btn btn-primary mr-4 nav-item dropdown">
-                            <a class="nav-link dropdown-toggle p-0" style="color: black" data-toggle="dropdown">@user.FirstName.CapitalizeFirstLetter() @user.LastName.CapitalizeFirstLetter()</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a asp-controller="Account" asp-action="Profile" class="dropdown-item">Profil</a>
-                                <a asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">Şifre Değiştir</a>
-                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item">Çıkış Yap</a>
+                        @if (!Context.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary mr-3 d-none d-lg-block">Giriş Yap</a>
+                        }
+                        else
+                        {
+                            <div class="btn btn-primary mr-4 nav-item dropdown">
+                                <a class="nav-link dropdown-toggle p-0" style="color: black" data-toggle="dropdown">@user.FirstName.CapitalizeFirstLetter() @user.LastName.CapitalizeFirstLetter()</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a asp-controller="Account" asp-action="Profile" class="dropdown-item">Profil</a>
+                                    <a asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">Şifre Değiştir</a>
+                                    <a asp-controller="Account" asp-action="Logout" class="dropdown-item">Çıkış Yap</a>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    
                 </div>
             </nav>
         </div>

@@ -4,7 +4,6 @@ using indiGo.Business.Repositories.Abstract;
 using indiGo.Business.Services.Email;
 using indiGo.Core.Entities;
 using indiGo.Core.Services;
-using indiGo.Data.Entities;
 using indiGo.Data.EntityFramework;
 using indiGo.Data.Identity;
 using Microsoft.AspNetCore.Identity;

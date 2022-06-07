@@ -22,6 +22,59 @@ namespace indiGo.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("indiGo.Core.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AddressInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApartmentNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FlatNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("indiGo.Core.Entities.Entry", b =>
                 {
                     b.Property<int>("Id")
@@ -77,60 +130,7 @@ namespace indiGo.Data.Migrations
                     b.ToTable("Receipts");
                 });
 
-            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AddressInfo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ApartmentNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FlatNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Neighborhood")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("indiGo.Data.Entities.ServiceDemand", b =>
+            modelBuilder.Entity("indiGo.Core.Entities.ServiceDemand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,17 +168,26 @@ namespace indiGo.Data.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TCKN")
                         .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("nchar(11)")
                         .IsFixedLength();
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ServiceDemands");
                 });
@@ -259,6 +268,80 @@ namespace indiGo.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a9c0bfc1-ebc3-4a8b-992d-a5a53042f0c0",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEObKpXQ4WeytKEiy9XgByYWww9UafLxkmOckCWLbzcVNO0EWEaYQpKyPsUDInbeeLQ==",
+                            PhoneNumberConfirmed = false,
+                            RegisterDate = new DateTime(2022, 6, 7, 7, 42, 28, 268, DateTimeKind.Utc).AddTicks(4762),
+                            SecurityStamp = "58016180-1904-4619-8f54-39aa9d5c5374",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "8e443125-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4b817551-7ac7-440d-bbef-cdc8361445c1",
+                            Email = "mandosi@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Mandosi",
+                            LastName = "Paki",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "MANDOSI",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMlWf9xj8k4eAGE4Tnzh8Gn46jBXfD8OATtLCZBzA3WevcD0PVWAaAp2ARCYiqQYKA==",
+                            PhoneNumberConfirmed = false,
+                            RegisterDate = new DateTime(2022, 6, 7, 7, 42, 28, 279, DateTimeKind.Utc).AddTicks(2345),
+                            SecurityStamp = "4b624c48-ad8b-4ae2-9898-3a95462c66c6",
+                            TwoFactorEnabled = false,
+                            UserName = "mandosi"
+                        },
+                        new
+                        {
+                            Id = "8e443125-a24d-4543-a6c6-8223d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a6d50b11-0fbd-42ef-989f-8b8d66139c97",
+                            Email = "bewar@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Bewar",
+                            LastName = "Dılbixhin",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "BEWAR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ2TqLVvI2UzL1K9Vh77zSS5KTfm8tg1LYd2q8l0RarasKqwOVkgw8HZS3tgD+viyg==",
+                            PhoneNumberConfirmed = false,
+                            RegisterDate = new DateTime(2022, 6, 7, 7, 42, 28, 289, DateTimeKind.Utc).AddTicks(6512),
+                            SecurityStamp = "f5aa9f5e-6e9e-4944-bc78-1f9a8f8d2ac4",
+                            TwoFactorEnabled = false,
+                            UserName = "bewar"
+                        },
+                        new
+                        {
+                            Id = "8e443125-a24d-4543-a5g5-8223d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e9baa647-d10c-4942-83f4-f1f8781bddbd",
+                            Email = "cumali@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Cumali",
+                            LastName = "Cemalikızık",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "CUMALI",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK49xuL/mqgFM6pPZoigODl0elgqtJU5ywV27L0On2hXsYaJ2naSNvPq43HcW1/9IQ==",
+                            PhoneNumberConfirmed = false,
+                            RegisterDate = new DateTime(2022, 6, 7, 7, 42, 28, 300, DateTimeKind.Utc).AddTicks(782),
+                            SecurityStamp = "3c684829-9dcb-4aa6-b44e-d4e70b92c1eb",
+                            TwoFactorEnabled = false,
+                            UserName = "cumali"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -286,6 +369,57 @@ namespace indiGo.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "8eeaddd7-c505-44a3-9ee8-e2cd5e7a6ad0",
+                            Name = "ADMIN",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "7ca99631-fc3f-474c-b58c-4a6eea65ad55",
+                            Name = "CUSTOMER",
+                            NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "5232082e-b74b-41cd-93ac-3919afde4260",
+                            Name = "OPERATOR",
+                            NormalizedName = "OPERATOR"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            ConcurrencyStamp = "79ae6a1b-a663-41ae-8212-93d294cc90ee",
+                            Name = "PASSIVE",
+                            NormalizedName = "PASSIVE"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            ConcurrencyStamp = "7b83ed53-d881-498a-81c1-ec249f75fb9f",
+                            Name = "ELECTRICALSERVICE",
+                            NormalizedName = "ELECTRICALSERVICE"
+                        },
+                        new
+                        {
+                            Id = "6",
+                            ConcurrencyStamp = "8fe740ce-ee14-4fc2-94e9-379696fe66d1",
+                            Name = "GASSERVICE",
+                            NormalizedName = "GASSERVICE"
+                        },
+                        new
+                        {
+                            Id = "7",
+                            ConcurrencyStamp = "3ec95bdc-0e12-48dc-a885-1af6999e5964",
+                            Name = "PLUMBINGSERVICE",
+                            NormalizedName = "PLUMBINGSERVICE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -373,6 +507,28 @@ namespace indiGo.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "3"
+                        },
+                        new
+                        {
+                            UserId = "8e443125-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "5"
+                        },
+                        new
+                        {
+                            UserId = "8e443125-a24d-4543-a6c6-8223d048cdb9",
+                            RoleId = "6"
+                        },
+                        new
+                        {
+                            UserId = "8e443125-a24d-4543-a5g5-8223d048cdb9",
+                            RoleId = "7"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -394,37 +550,39 @@ namespace indiGo.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("indiGo.Core.Entities.Address", b =>
+                {
+                    b.HasOne("indiGo.Data.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("indiGo.Core.Entities.Entry", b =>
                 {
                     b.HasOne("indiGo.Core.Entities.Receipt", "Receipt")
                         .WithMany("ReceiptEntries")
                         .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Receipt");
                 });
 
-            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
+            modelBuilder.Entity("indiGo.Core.Entities.ServiceDemand", b =>
                 {
-                    b.HasOne("indiGo.Data.Identity.ApplicationUser", "User")
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("indiGo.Data.Entities.ServiceDemand", b =>
-                {
-                    b.HasOne("indiGo.Data.Entities.Address", "Address")
-                        .WithMany("ServiceDemands")
+                    b.HasOne("indiGo.Core.Entities.Address", null)
+                        .WithMany()
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.HasOne("indiGo.Data.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -481,16 +639,6 @@ namespace indiGo.Data.Migrations
             modelBuilder.Entity("indiGo.Core.Entities.Receipt", b =>
                 {
                     b.Navigation("ReceiptEntries");
-                });
-
-            modelBuilder.Entity("indiGo.Data.Entities.Address", b =>
-                {
-                    b.Navigation("ServiceDemands");
-                });
-
-            modelBuilder.Entity("indiGo.Data.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

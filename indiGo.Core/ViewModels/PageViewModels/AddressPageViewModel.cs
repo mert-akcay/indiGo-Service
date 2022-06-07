@@ -1,7 +1,6 @@
-﻿using indiGo.Core.ViewModels;
-using indiGo.Data.Entities;
+﻿using indiGo.Core.Entities;
 
-namespace indiGo.Web.ViewModels;
+namespace indiGo.Core.ViewModels;
 
 public class AddressPageViewModel
 {

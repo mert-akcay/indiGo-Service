@@ -1,8 +1,6 @@
-﻿using indiGo.Data.Entites;
-using indiGo.Data.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace indiGo.Web.ViewModels;
+namespace indiGo.Core.ViewModels;
 
 public class ServiceDemandPageViewModel
 {
