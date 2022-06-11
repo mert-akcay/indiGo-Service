@@ -4,9 +4,9 @@ using indiGo.Data.EntityFramework;
 
 namespace indiGo.Business.Repositories;
 
-public class EntryRepository : RepositoryBase<Entry,int>
+public class ReceiptDetailRepository : RepositoryBase<ReceiptDetail, int>
 {
-    public EntryRepository(MyContext context) : base(context)
+    public ReceiptDetailRepository(MyContext context) : base(context)
     {
     }
 }

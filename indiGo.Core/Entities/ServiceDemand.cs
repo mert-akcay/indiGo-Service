@@ -12,4 +12,8 @@ public class ServiceDemand : BaseEntity<int>
     public string Category { get; set; }
     public string UserId { get; set; }
     public string? ServiceId { get; set; }
+    public bool Accepted { get; set; } = false;
+    public bool Completed { get; set; } = false;
+    public bool Receipted { get; set; } = false;
+    public bool Paid { get; set; } = false;
 }

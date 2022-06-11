@@ -145,14 +145,19 @@ public class AccountController : Controller
 
             if (await _userManager.IsInRoleAsync(user,Roles.Operator))
             {
-                return RedirectToAction("Services", "Operator");
+                return RedirectToAction("ServiceDemands", "Operator");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, Roles.Admin))
+            {
+                return RedirectToAction("Products", "Admin");
             }
             if (await _userManager.IsInRoleAsync(user, Roles.Customer) ||
                 await _userManager.IsInRoleAsync(user, Roles.Passive))
             {
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("WaitingDemands", "Service");
         }
         else if (result.IsLockedOut)
         {

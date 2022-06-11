@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using indiGo.Data.EntityFramework;
 
@@ -11,9 +12,10 @@ using indiGo.Data.EntityFramework;
 namespace indiGo.Data.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20220609105841_DbUpdated")]
+    partial class DbUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,12 +119,16 @@ namespace indiGo.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DemandId")
+                    b.Property<string>("DemandId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DemandId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DemandId");
+                    b.HasIndex("DemandId1");
 
                     b.HasIndex("Id");
 
@@ -145,9 +151,6 @@ namespace indiGo.Data.Migrations
 
                     b.Property<int?>("ProductId1")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ReceiptId")
                         .HasColumnType("int");
@@ -204,9 +207,6 @@ namespace indiGo.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("Paid")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(13)
@@ -216,9 +216,6 @@ namespace indiGo.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
-
-                    b.Property<bool>("Receipted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ServiceId")
                         .HasColumnType("nvarchar(max)");
@@ -326,17 +323,17 @@ namespace indiGo.Data.Migrations
                         {
                             Id = "8e552862-a24d-4548-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82e1f11e-9703-4801-9f97-557d4b7667aa",
+                            ConcurrencyStamp = "cb51e1a8-bdd5-490e-b4c5-0931b078da19",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHp4EV2Gywu9QkbnhZtAxBhapAlk+abLWUVZvFtDEVTDScyw3V/uI4r6Ze5SS1x6Eg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDIr1pNwx4KjdO//H+OQWbYSjlvIH5VUjhjMKLjiXDliVdZtsAeOLmVd6xuyuCVlug==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2022, 6, 10, 11, 9, 17, 85, DateTimeKind.Utc).AddTicks(4980),
-                            SecurityStamp = "81052e58-97b2-487d-be2a-eae8cb15d896",
+                            RegisterDate = new DateTime(2022, 6, 9, 10, 58, 41, 354, DateTimeKind.Utc).AddTicks(5708),
+                            SecurityStamp = "d27bf5dc-e942-4b05-9ca3-601a249b0522",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -344,17 +341,17 @@ namespace indiGo.Data.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "650ab114-4c82-4792-8121-67af15de182f",
+                            ConcurrencyStamp = "34a70ba7-0821-42fe-872f-3d5dd74b6d41",
                             Email = "operator@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Operator",
                             LastName = "Operator",
                             LockoutEnabled = false,
                             NormalizedUserName = "OPERATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOMmIhkUUAvAO4c0g2WIbu/DDAviBX4MIDRJUKYKls7z5GkLhlvjp6f2L/K66h2CtQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEaoCKpJrZBKnXoCQCZO3vXVBnpKsM+yG9QgVSGxI6xR5opHwGvCY4IbnEFzWZOaCg==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2022, 6, 10, 11, 9, 17, 90, DateTimeKind.Utc).AddTicks(9313),
-                            SecurityStamp = "980d9dd3-edfa-40a4-950c-368173c988b0",
+                            RegisterDate = new DateTime(2022, 6, 9, 10, 58, 41, 360, DateTimeKind.Utc).AddTicks(2779),
+                            SecurityStamp = "d880874b-a678-49fe-ae64-364496276669",
                             TwoFactorEnabled = false,
                             UserName = "operator"
                         },
@@ -362,17 +359,17 @@ namespace indiGo.Data.Migrations
                         {
                             Id = "8e443125-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "96aabd04-d52c-4050-8a01-02e03a46c803",
+                            ConcurrencyStamp = "c05c413a-326b-4c8e-ab72-0cdf12478e2a",
                             Email = "mandosi@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Mandosi",
                             LastName = "Paki",
                             LockoutEnabled = false,
                             NormalizedUserName = "MANDOSI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF49EHl28tVZGjNOtZsmjE2SmuO174vpCkON4oLGY1dvon2M3bfhVl4xiqLVTMdEcA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENrAGEoqTv5uVbDvWrZj6tZlYbsXWF93bsoV9sAqmtZRIx/8TbkEKETc9hvCZ3qzxA==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2022, 6, 10, 11, 9, 17, 96, DateTimeKind.Utc).AddTicks(2358),
-                            SecurityStamp = "af874e63-7c6c-43bf-a214-9c60835014f0",
+                            RegisterDate = new DateTime(2022, 6, 9, 10, 58, 41, 366, DateTimeKind.Utc).AddTicks(391),
+                            SecurityStamp = "7fa71813-b365-4c1c-90de-56845c8d045f",
                             TwoFactorEnabled = false,
                             UserName = "mandosi"
                         },
@@ -380,17 +377,17 @@ namespace indiGo.Data.Migrations
                         {
                             Id = "8e443125-a24d-4543-a6c6-8223d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a5e14e6e-e02b-4424-aceb-2bc1fd4004ea",
+                            ConcurrencyStamp = "06137bb7-4a41-4c7b-9809-9ede38133df1",
                             Email = "bewar@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Bewar",
                             LastName = "Dılbixhin",
                             LockoutEnabled = false,
                             NormalizedUserName = "BEWAR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIS59McxPQ4pY9kjQ4oXEGz+j2vJwczHEmQUh3ulnCfzJHoLZvngUiJDOEnn98Vxrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEORj9BNIAcKBnHxFvBxskJ8Z3awOgrKlrNLI5Q+CDLOgQQpLNvuROmHlNoDjwQpgHQ==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2022, 6, 10, 11, 9, 17, 101, DateTimeKind.Utc).AddTicks(5642),
-                            SecurityStamp = "8b1e893b-a096-47d8-ad96-a83a15e90079",
+                            RegisterDate = new DateTime(2022, 6, 9, 10, 58, 41, 371, DateTimeKind.Utc).AddTicks(5543),
+                            SecurityStamp = "dca57772-747c-4cb5-9240-7ac9b632129c",
                             TwoFactorEnabled = false,
                             UserName = "bewar"
                         },
@@ -398,17 +395,17 @@ namespace indiGo.Data.Migrations
                         {
                             Id = "8e443125-a24d-4543-a5g5-8223d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "832fe743-eb0b-42c6-80f1-254779bb64ab",
+                            ConcurrencyStamp = "32969044-1fe3-4d6b-b5cf-a7697aecdb1b",
                             Email = "cumali@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Cumali",
                             LastName = "Cemalikızık",
                             LockoutEnabled = false,
                             NormalizedUserName = "CUMALI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEqdrvlREiatb5PG6Vg4yePauZfDwNEmkNO4ezlEdX6SXcl9TI+jfTQO0F44kI3bqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBBOPi+h3X6j+H3Elg6NZ6pFl9lFxUKCUUcjFUCPcn1iVz2IZUAv5VTZSOtslXyb0w==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2022, 6, 10, 11, 9, 17, 107, DateTimeKind.Utc).AddTicks(4567),
-                            SecurityStamp = "f4689c0b-aa86-4c4d-87df-e4eb20f9ef64",
+                            RegisterDate = new DateTime(2022, 6, 9, 10, 58, 41, 377, DateTimeKind.Utc).AddTicks(454),
+                            SecurityStamp = "1b692377-c048-4eee-8ba7-7917f9a8bc1e",
                             TwoFactorEnabled = false,
                             UserName = "cumali"
                         });
@@ -444,49 +441,49 @@ namespace indiGo.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "2369cdb7-bda4-4a86-b776-78ac6f9802b4",
+                            ConcurrencyStamp = "ded163df-d8c6-4d68-8aaa-612856d88c82",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "53ea4479-6c36-4bb0-ab74-4c374da23a5b",
+                            ConcurrencyStamp = "2b8c9a70-a6d1-4d68-8fe1-4d36f69a32d3",
                             Name = "CUSTOMER",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "272a798b-17c8-481e-890d-30a4eddaa3a2",
+                            ConcurrencyStamp = "fdc9c330-42ca-4a20-8b0e-66988e95bf16",
                             Name = "OPERATOR",
                             NormalizedName = "OPERATOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "bb4a586f-998b-473e-bee1-7706d8d90f5a",
+                            ConcurrencyStamp = "7726f99d-bea7-4415-b5db-c8cf7e641897",
                             Name = "PASSIVE",
                             NormalizedName = "PASSIVE"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "01f9a583-12e0-4890-aa04-4c323d0b91f6",
+                            ConcurrencyStamp = "2c27783e-98d0-410f-bbaa-509d04b093fe",
                             Name = "ELECTRICALSERVICE",
                             NormalizedName = "ELECTRICALSERVICE"
                         },
                         new
                         {
                             Id = "6",
-                            ConcurrencyStamp = "5a4eb3a0-f050-4e53-95ed-fabbe4ee0074",
+                            ConcurrencyStamp = "5abf22fa-5f66-4c46-b449-0548655689e9",
                             Name = "GASSERVICE",
                             NormalizedName = "GASSERVICE"
                         },
                         new
                         {
                             Id = "7",
-                            ConcurrencyStamp = "cb8949b7-7a0c-4aef-b633-75bef6f1580d",
+                            ConcurrencyStamp = "cea387e5-7164-45d6-84b0-83516ba14279",
                             Name = "PLUMBINGSERVICE",
                             NormalizedName = "PLUMBINGSERVICE"
                         });
@@ -638,9 +635,7 @@ namespace indiGo.Data.Migrations
                 {
                     b.HasOne("indiGo.Core.Entities.ServiceDemand", "Demand")
                         .WithMany()
-                        .HasForeignKey("DemandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DemandId1");
 
                     b.Navigation("Demand");
                 });

@@ -55,6 +55,10 @@ builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 
 builder.Services.AddScoped<IRepository<Address, int>, AddressRepository>();
 builder.Services.AddScoped<IRepository<ServiceDemand, int>, ServiceDemandRepository>();
+builder.Services.AddScoped<IRepository<Product, int>, ProductRepository>();
+builder.Services.AddScoped<IRepository<Receipt, int>, ReceiptRepository>();
+builder.Services.AddScoped<IRepository<ReceiptDetail, int>, ReceiptDetailRepository>();
+
 
 
 builder.Services.AddAutoMapper(options =>

@@ -72,14 +72,24 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
         });
         builder.Entity<ApplicationUser>(entity =>
         {
-            entity.HasData( new ApplicationUser()
+            entity.HasData(new ApplicationUser()
             {
-                Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", 
+                Id = "8e552862-a24d-4548-a6c6-9443d048cdb9",
                 FirstName = "Admin",
                 LastName = "Admin",
                 Email = "admin@gmail.com",
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
+                PasswordHash = passwordHasher.HashPassword(null, "123456")
+            });
+            entity.HasData( new ApplicationUser()
+            {
+                Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", 
+                FirstName = "Operator",
+                LastName = "Operator",
+                Email = "operator@gmail.com",
+                UserName = "operator",
+                NormalizedUserName = "OPERATOR",
                 PasswordHash = passwordHasher.HashPassword(null,"123456")
             });
             entity.HasData(new ApplicationUser()
@@ -115,6 +125,12 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
         });
         builder.Entity<IdentityUserRole<string>>(entity =>
         {
+            
+            entity.HasData(new IdentityUserRole<string>
+            {
+                RoleId = "1",
+                UserId = "8e552862-a24d-4548-a6c6-9443d048cdb9"
+            });
             entity.HasData(new IdentityUserRole<string>
             {
                 RoleId = "3",
@@ -156,24 +172,30 @@ public sealed class MyContext : IdentityDbContext<ApplicationUser, IdentityRole,
             entity.HasOne<ApplicationUser>().WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
         });
 
-        builder.Entity<Entry>(entity =>
+        builder.Entity<Product>(entity =>
         {
             entity.HasIndex(x => x.Id);
             entity.Property(x => x.Name).HasMaxLength(80).IsRequired(true);
-            entity.Property(x => x.Price).HasPrecision(2).IsRequired(true);
-            entity.HasOne(x => x.Receipt).WithMany(x => x.ReceiptEntries).HasForeignKey(x => x.ReceiptId).OnDelete(DeleteBehavior.Restrict);
+            entity.Property(x => x.Price).HasPrecision(8,2).IsRequired(true);
+          
+
         });
 
         builder.Entity<Receipt>(entity =>
         {
             entity.HasIndex(x => x.Id);
-            entity.Property(x => x.Operation).HasMaxLength(300).IsRequired(true);
-            entity.HasMany(x => x.ReceiptEntries).WithOne(x => x.Receipt).HasForeignKey(x => x.ReceiptId);
+        });
+
+        builder.Entity<ReceiptDetail>(entity =>
+        {
+            entity.HasIndex(x => x.Id);
+            entity.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne<Receipt>().WithMany().HasForeignKey(x => x.ReceiptId).OnDelete(DeleteBehavior.Restrict);
         });
     }
 
     public DbSet<ServiceDemand> ServiceDemands { get; set; }
-    public DbSet<Entry> Entries { get; set; }
+    public DbSet<Product> Products { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<Address> Addresses { get; set; }
 }

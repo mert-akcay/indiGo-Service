@@ -37,5 +37,10 @@ public class ServiceDemandViewModel
     public string? Category { get; set; }
     public Address? Address { get; set; }
     public UserViewModel? Service { get; set; }
+    public string? ServiceId { get; set; }
+    public bool Accepted { get; set; } = false;
+    public bool Completed { get; set; } = false;
+    public bool Receipted { get; set; } = false;
+    public bool Paid { get; set; } = false;
 
 }

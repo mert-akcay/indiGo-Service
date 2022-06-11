@@ -52,20 +52,6 @@ namespace indiGo.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Receipts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Operation = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Receipts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -200,28 +186,6 @@ namespace indiGo.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Entries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(2,2)", precision: 2, nullable: false),
-                    ReceiptId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Entries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Entries_Receipts_ReceiptId",
-                        column: x => x.ReceiptId,
-                        principalTable: "Receipts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiceDemands",
                 columns: table => new
                 {
@@ -236,6 +200,8 @@ namespace indiGo.Data.Migrations
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ServiceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Accepted = table.Column<bool>(type: "bit", nullable: false),
+                    Completed = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -255,18 +221,98 @@ namespace indiGo.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Receipts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DemandId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DemandId1 = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receipts_ServiceDemands_DemandId1",
+                        column: x => x.DemandId1,
+                        principalTable: "ServiceDemands",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(2,2)", precision: 2, nullable: false),
+                    ReceiptId = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceiptDetail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReceiptId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ReceiptId1 = table.Column<int>(type: "int", nullable: true),
+                    ProductId1 = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Products_ProductId1",
+                        column: x => x.ProductId1,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Receipts_ReceiptId1",
+                        column: x => x.ReceiptId1,
+                        principalTable: "Receipts",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "8eeaddd7-c505-44a3-9ee8-e2cd5e7a6ad0", "ADMIN", "ADMIN" },
-                    { "2", "7ca99631-fc3f-474c-b58c-4a6eea65ad55", "CUSTOMER", "CUSTOMER" },
-                    { "3", "5232082e-b74b-41cd-93ac-3919afde4260", "OPERATOR", "OPERATOR" },
-                    { "4", "79ae6a1b-a663-41ae-8212-93d294cc90ee", "PASSIVE", "PASSIVE" },
-                    { "5", "7b83ed53-d881-498a-81c1-ec249f75fb9f", "ELECTRICALSERVICE", "ELECTRICALSERVICE" },
-                    { "6", "8fe740ce-ee14-4fc2-94e9-379696fe66d1", "GASSERVICE", "GASSERVICE" },
-                    { "7", "3ec95bdc-0e12-48dc-a885-1af6999e5964", "PLUMBINGSERVICE", "PLUMBINGSERVICE" }
+                    { "1", "fb5319bf-68f7-4741-ac61-11413ad2d645", "ADMIN", "ADMIN" },
+                    { "2", "5458d8e2-f02a-4bbd-b88e-2817aafd8788", "CUSTOMER", "CUSTOMER" },
+                    { "3", "460d646c-3ef9-482a-8386-842a7cadb882", "OPERATOR", "OPERATOR" },
+                    { "4", "ef328f1c-620e-4b1a-8eab-53f74745a834", "PASSIVE", "PASSIVE" },
+                    { "5", "1de44c71-96a5-4cd6-9fa2-4b25c46b9985", "ELECTRICALSERVICE", "ELECTRICALSERVICE" },
+                    { "6", "4a174e1d-2a20-41d6-bccc-3e770b91a379", "GASSERVICE", "GASSERVICE" },
+                    { "7", "9a242cab-d083-44d3-8214-85bcacde176b", "PLUMBINGSERVICE", "PLUMBINGSERVICE" }
                 });
 
             migrationBuilder.InsertData(
@@ -274,10 +320,11 @@ namespace indiGo.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegisterDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e443125-a24d-4543-a5g5-8223d048cdb9", 0, "e9baa647-d10c-4942-83f4-f1f8781bddbd", "cumali@gmail.com", false, "Cumali", "Cemalikızık", false, null, null, "CUMALI", "AQAAAAEAACcQAAAAEK49xuL/mqgFM6pPZoigODl0elgqtJU5ywV27L0On2hXsYaJ2naSNvPq43HcW1/9IQ==", null, false, new DateTime(2022, 6, 7, 7, 42, 28, 300, DateTimeKind.Utc).AddTicks(782), "3c684829-9dcb-4aa6-b44e-d4e70b92c1eb", false, "cumali" },
-                    { "8e443125-a24d-4543-a6c6-8223d048cdb9", 0, "a6d50b11-0fbd-42ef-989f-8b8d66139c97", "bewar@gmail.com", false, "Bewar", "Dılbixhin", false, null, null, "BEWAR", "AQAAAAEAACcQAAAAEJ2TqLVvI2UzL1K9Vh77zSS5KTfm8tg1LYd2q8l0RarasKqwOVkgw8HZS3tgD+viyg==", null, false, new DateTime(2022, 6, 7, 7, 42, 28, 289, DateTimeKind.Utc).AddTicks(6512), "f5aa9f5e-6e9e-4944-bc78-1f9a8f8d2ac4", false, "bewar" },
-                    { "8e443125-a24d-4543-a6c6-9443d048cdb9", 0, "4b817551-7ac7-440d-bbef-cdc8361445c1", "mandosi@gmail.com", false, "Mandosi", "Paki", false, null, null, "MANDOSI", "AQAAAAEAACcQAAAAEMlWf9xj8k4eAGE4Tnzh8Gn46jBXfD8OATtLCZBzA3WevcD0PVWAaAp2ARCYiqQYKA==", null, false, new DateTime(2022, 6, 7, 7, 42, 28, 279, DateTimeKind.Utc).AddTicks(2345), "4b624c48-ad8b-4ae2-9898-3a95462c66c6", false, "mandosi" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "a9c0bfc1-ebc3-4a8b-992d-a5a53042f0c0", "admin@gmail.com", false, "Admin", "Admin", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEObKpXQ4WeytKEiy9XgByYWww9UafLxkmOckCWLbzcVNO0EWEaYQpKyPsUDInbeeLQ==", null, false, new DateTime(2022, 6, 7, 7, 42, 28, 268, DateTimeKind.Utc).AddTicks(4762), "58016180-1904-4619-8f54-39aa9d5c5374", false, "admin" }
+                    { "8e443125-a24d-4543-a5g5-8223d048cdb9", 0, "54ee14ec-ddf0-4f21-9611-b088aaefd079", "cumali@gmail.com", false, "Cumali", "Cemalikızık", false, null, null, "CUMALI", "AQAAAAEAACcQAAAAEMy1zIDF87Nl86YIsGosusa5CVxqiikhlUWGuR2sGTsifzTOR9vTuMHX/t5VDh3P2A==", null, false, new DateTime(2022, 6, 8, 11, 41, 56, 43, DateTimeKind.Utc).AddTicks(3905), "038ad562-a746-426b-b32c-c33e492ca3fe", false, "cumali" },
+                    { "8e443125-a24d-4543-a6c6-8223d048cdb9", 0, "98267260-5dcd-4911-8c82-83177a8bf43f", "bewar@gmail.com", false, "Bewar", "Dılbixhin", false, null, null, "BEWAR", "AQAAAAEAACcQAAAAENezLagl83lrDCbe5oU4Jj5TmTcwNCiaYrQPTa/iWhgwednrfpGanX4FtB/mDfPFAQ==", null, false, new DateTime(2022, 6, 8, 11, 41, 56, 38, DateTimeKind.Utc).AddTicks(1823), "8dc5bf9e-acb6-4b0f-90c6-042e7db39189", false, "bewar" },
+                    { "8e443125-a24d-4543-a6c6-9443d048cdb9", 0, "969cf7b0-80a7-4985-8a0a-9797a013c7e2", "mandosi@gmail.com", false, "Mandosi", "Paki", false, null, null, "MANDOSI", "AQAAAAEAACcQAAAAENOFXRX2yQV6HPkJ3Q518xj8q8zBenezMqxEblL5YtuWfDa6nKX7xKI6ouUt0iYlBg==", null, false, new DateTime(2022, 6, 8, 11, 41, 56, 32, DateTimeKind.Utc).AddTicks(9722), "972bb28c-2f79-4c0d-b175-b3289add4c07", false, "mandosi" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "37ba7aa1-3cb5-4046-8537-b49e78653638", "operator@gmail.com", false, "Operator", "Operator", false, null, null, "OPERATOR", "AQAAAAEAACcQAAAAEBQWbFbLX4bHsJa1TKbdyygbRrMudFfImqBtQkCm+7uPP33N4w+jc8BmmokYdgh90A==", null, false, new DateTime(2022, 6, 8, 11, 41, 56, 27, DateTimeKind.Utc).AddTicks(6041), "9e8635f4-6de2-4b30-ac27-23fdcb4b5a96", false, "operator" },
+                    { "8e552862-a24d-4548-a6c6-9443d048cdb9", 0, "b8834802-70cc-4511-a2e0-39396f2787ef", "admin@gmail.com", false, "Admin", "Admin", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAENIRUeG5c25qspweR7s6a5KYYKo3RZgmeupw6OgH8mfT2zyQAwue6SYAHqL3w6DK3w==", null, false, new DateTime(2022, 6, 8, 11, 41, 56, 22, DateTimeKind.Utc).AddTicks(3582), "2d05fdcc-c8c5-435d-9537-f23262a603a3", false, "admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -288,7 +335,8 @@ namespace indiGo.Data.Migrations
                     { "7", "8e443125-a24d-4543-a5g5-8223d048cdb9" },
                     { "6", "8e443125-a24d-4543-a6c6-8223d048cdb9" },
                     { "5", "8e443125-a24d-4543-a6c6-9443d048cdb9" },
-                    { "3", "8e445865-a24d-4543-a6c6-9443d048cdb9" }
+                    { "3", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "1", "8e552862-a24d-4548-a6c6-9443d048cdb9" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -336,14 +384,44 @@ namespace indiGo.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entries_Id",
-                table: "Entries",
+                name: "IX_Products_Id",
+                table: "Products",
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entries_ReceiptId",
-                table: "Entries",
+                name: "IX_Products_ReceiptId",
+                table: "Products",
                 column: "ReceiptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_Id",
+                table: "ReceiptDetail",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_ProductId",
+                table: "ReceiptDetail",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_ProductId1",
+                table: "ReceiptDetail",
+                column: "ProductId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_ReceiptId",
+                table: "ReceiptDetail",
+                column: "ReceiptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_ReceiptId1",
+                table: "ReceiptDetail",
+                column: "ReceiptId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_DemandId1",
+                table: "Receipts",
+                column: "DemandId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receipts_Id",
@@ -384,16 +462,19 @@ namespace indiGo.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Entries");
-
-            migrationBuilder.DropTable(
-                name: "ServiceDemands");
+                name: "ReceiptDetail");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "Receipts");
+
+            migrationBuilder.DropTable(
+                name: "ServiceDemands");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

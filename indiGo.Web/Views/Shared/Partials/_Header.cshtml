@@ -68,11 +68,16 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-
-                        @if (Context.User.IsInRole(Roles.ElectricalService) || Context.User.IsInRole(Roles.GasService) || Context.User.IsInRole(Roles.PlumbingService))
+                        @if (Context.User.IsInRole(Roles.Admin))
                         {
-                            <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Talepler</a>
-                            <a asp-controller="Home" asp-action="Index" class='nav-item nav-link @(page == "Home" ? "active" : "")'>Tamamlanan İşler</a>
+                        <a asp-controller="Admin" asp-action="Products" class='nav-item nav-link @(action == "Products" ? "active" : "")'>Ürünler</a>
+                        <a asp-controller="Admin" asp-action="AddProduct" class='nav-item nav-link @(action == "AddProduct" ? "active" : "")'>Ürün Ekle</a>
+                        }
+                        else if (Context.User.IsInRole(Roles.ElectricalService) || Context.User.IsInRole(Roles.GasService) || Context.User.IsInRole(Roles.PlumbingService))
+                        {
+                            <a asp-controller="Service" asp-action="WaitingDemands" class='nav-item nav-link @(action == "WaitingDemands" ? "active" : "")'>Bekleyen İşler</a>
+                            <a asp-controller="Service" asp-action="AcceptedDemands" class='nav-item nav-link @(action == "AcceptedDemands" ? "active" : "")'>Kabul Edilen İşler</a>
+                            <a asp-controller="Service" asp-action="CompletedDemands" class='nav-item nav-link @(action == "CompletedDemands" ? "active" : "")'>Tamamlanan İşler</a>
                             <a href="contact.html" class="nav-item nav-link">İletişim</a>
                         }
                         else if (Context.User.IsInRole(Roles.Operator))
