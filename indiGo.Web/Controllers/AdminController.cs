@@ -1,11 +1,14 @@
 ﻿using indiGo.Business.Repositories.Abstract;
 using indiGo.Core.Entities;
+using indiGo.Core.Identity;
 using indiGo.Core.ViewModels;
 using indiGo.Core.ViewModels.PageViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace indiGo.Web.Controllers;
 
+[Authorize(Roles = "ADMIN")]
 public class AdminController : Controller
 {
     private readonly IRepository<Product, int> _productRepository;

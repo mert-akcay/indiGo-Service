@@ -8,12 +8,14 @@ using indiGo.Core.Services;
 using indiGo.Core.ViewModels;
 using indiGo.Core.ViewModels.PageViewModels;
 using indiGo.Data.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace indiGo.Web.Controllers;
 
+[Authorize(Roles = "OPERATOR")]
 public class OperatorController : Controller
 {
     private readonly IRepository<ServiceDemand, int> _serviceDemandRepository;

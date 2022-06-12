@@ -8,6 +8,7 @@ using indiGo.Core.Services;
 using indiGo.Core.ViewModels;
 using indiGo.Data.Identity;
 using indiGo.Web.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -46,12 +47,21 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
+        if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Profile");
+        }
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
+        if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Profile");
+        }
+
         if (!ModelState.IsValid)
         {
             ModelState.AddModelError(string.Empty, "Bir hata oluştu!");
@@ -111,12 +121,22 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login()
     {
+        if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Profile");
+        }
+
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
+        if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Profile");
+        }
+
         if (!ModelState.IsValid)
         {
             ModelState.AddModelError(string.Empty, "Bir hata oluştu.");
@@ -200,6 +220,7 @@ public class AccountController : Controller
 
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
@@ -209,6 +230,7 @@ public class AccountController : Controller
 
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Profile()
     {
         var name = HttpContext.User.Identity.Name;
@@ -227,6 +249,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Profile(UserViewModel model)
     {
         if (!ModelState.IsValid)
@@ -268,12 +291,14 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult ChangePassword()
     {
         return View();
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
         if (!ModelState.IsValid)
@@ -296,6 +321,7 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "CUSTOMER,PASSIVE")]
     public async Task<IActionResult> MyDemands()
     {
         var demands = _serviceDemandRepository.Get(x => x.UserId == HttpContext.GetUserId()).ToList();
@@ -303,6 +329,7 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "CUSTOMER,PASSIVE")]
     public async Task<IActionResult> Addresses()
     {
         var name = HttpContext.User.Identity.Name;
@@ -316,6 +343,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "CUSTOMER,PASSIVE")]
     public async Task<IActionResult> Addresses(AddressPageViewModel model)
     {
         if (!ModelState.IsValid)
@@ -366,6 +394,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "CUSTOMER,PASSIVE")]
     public IActionResult DeleteAddresses(int id)
     {
         var address = _addressRepository.GetById(id);
@@ -379,6 +408,14 @@ public class AccountController : Controller
 
         return RedirectToAction("Addresses");
     }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
+
 
 
 }

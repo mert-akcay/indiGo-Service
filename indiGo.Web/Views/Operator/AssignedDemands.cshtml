@@ -37,6 +37,19 @@
                         <div>
                             <span class="badge badge-secondary badge-pill">@demand.Service.FirstName @demand.Service.LastName Servisine Atandı.</span>
                         </div>
+                        @if (demand.Receipted)
+                        {
+                            <div>
+                                <span class="badge badge-primary badge-pill">İş Tamamlandı.</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <span class="badge badge-primary badge-pill">Tamamlanması bekleniyor.</span>
+                            </div>
+                        }
+                        
 
                     </a>
                 }

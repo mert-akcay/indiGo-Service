@@ -1,33 +1,36 @@
 ﻿using indiGo.Core.Identity;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace indiGo.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        public HomeController(RoleManager<IdentityRole> roleManager)
-        {
-            _roleManager = roleManager;
-        }
-
-        public async void addRoles()
-        {
-            foreach (var role in Roles.RoleList)
-            {
-                await _roleManager.CreateAsync(new IdentityRole(role));
-            }
-        }
-
+        
         public IActionResult Index()
         {
+            if (!(!HttpContext.User.Identity.IsAuthenticated || HttpContext.User.IsInRole(Roles.Customer) || HttpContext.User.IsInRole(Roles.Passive)))
+            {
+                if (HttpContext.User.IsInRole(Roles.Admin))
+                {
+                    return RedirectToAction("Products", "Admin");
+                }
+                if (HttpContext.User.IsInRole(Roles.Operator))
+                {
+                    return RedirectToAction("ServiceDemands", "Operator");
+                }
+                if(HttpContext.User.IsInRole(Roles.ElectricalService) || HttpContext.User.IsInRole(Roles.GasService) || HttpContext.User.IsInRole(Roles.GasService))
+                {
+                    return RedirectToAction("WaitingDemands", "Service");
+                }
+            }
             return View();
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> ServiceDemand()
+        [Authorize(Roles = "CUSTOMER,PASSIVE")]
+        public IActionResult ServiceDemand()
         {
             return View();
         }

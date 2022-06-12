@@ -1,14 +1,17 @@
 ﻿using indiGo.Business.Repositories.Abstract;
 using indiGo.Core.Entities;
+using indiGo.Core.Identity;
 using indiGo.Core.ViewModels;
 using indiGo.Core.ViewModels.PageViewModels;
 using indiGo.Data.Identity;
 using indiGo.Web.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace indiGo.Web.Controllers;
 
+[Authorize(Roles = "ELECTRICALSERVICE,GASSERVICE,PLUMBINGSERVICE")]
 public class ServiceController : Controller
 {
     private readonly IRepository<ServiceDemand, int> _serviceDemandRepository;
